@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:summerclass/splash_page.dart';
 import 'details_page.dart';
 import 'firebase_options.dart';
-import 'home_page.dart';
 import 'new_movie_page.dart';
 
 Future<void> main() async {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const SplashPage(),
       routes: {
         "/new": (context) =>const NewMoviePage(),
         "/details": (context) =>const DetailsPage(),
