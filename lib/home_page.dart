@@ -115,13 +115,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void onSelectedItem(int index) {
+  void onSelectedItem(int index) async {
     debugPrint(titles.length.toString());
     debugPrint(index.toString());
     if (index == titles.length - 1) {
       Navigator.pushNamed(context, "/new");
     } else {
-      Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
+      var shouldReload = await Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
+      if (shouldReload == true) {
+        reloadData();
+      }
     }
   }
 }
