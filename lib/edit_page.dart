@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 class EditPage extends StatefulWidget {
   final Map<String, dynamic> movie;
 
-  const EditPage({Key? key, required this.movie}) : super(key: key);
+  const EditPage({super.key, required this.movie});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -28,6 +27,8 @@ class _EditPageState extends State<EditPage> {
   late String titulo;
   late String diretor;
   late String sinopse;
+  late String idDoc = '';
+  late Uint8List image;
 
   @override
   void initState() {
@@ -36,6 +37,8 @@ class _EditPageState extends State<EditPage> {
     titulo = widget.movie["titulo"];
     diretor = widget.movie["diretor"];
     sinopse = widget.movie["sinopse"];
+    idDoc = widget.movie["id"];
+    image = widget.movie["image"];
   }
 
   @override
@@ -120,7 +123,8 @@ class _EditPageState extends State<EditPage> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  editMovie(titulo!, diretor!, sinopse!, imagePath!);
+                  editMovie(idDoc, titulo, diretor, sinopse, imagePath!);
+
                   Navigator.pop(context, true);
                 }
               },
@@ -153,19 +157,22 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  editMovie(String documentId, String titulo, String diretor, String sinopse, File imagePath) async {
-    final ref = storage.ref().child(documentId);
-    await ref.putFile(imagePath!);
+  editMovie(String idDoc, String titulo, String diretor, String sinopse, File imagePath) async {
+
+    final ref = storage.ref().child(idDoc);
+    await ref.putFile(imagePath);
 
     Map<String, dynamic> movie = {
       "titulo": titulo,
       "diretor": diretor,
       "sinopse": sinopse,
+      "image": idDoc,
       "user_id": FirebaseAuth.instance.currentUser!.uid,
       "user_email": FirebaseAuth.instance.currentUser!.email,
     };
 
-    await db.collection("movies").doc(documentId).set(movie);
+    await db.collection("movies").doc(idDoc).set(movie);
+
   }
 
 }

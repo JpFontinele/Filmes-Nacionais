@@ -27,6 +27,8 @@ class _DetailsPageState extends State<DetailsPage> {
           .doc(
               "users_movies/${FirebaseAuth.instance.currentUser!.uid}_${movie["id"]}")
           .get();
+
+
       return d.data();
     }
 

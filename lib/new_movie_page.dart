@@ -24,7 +24,9 @@ class _NewMoviePageState extends State<NewMoviePage> {
   String? diretor;
   String? sinopse;
   File? imagePath;
+
   Uint8List? imageBytes;
+
 
   @override
   void initState() {
@@ -166,8 +168,10 @@ class _NewMoviePageState extends State<NewMoviePage> {
           "image": fileName,
           "user_id": FirebaseAuth.instance.currentUser!.uid,
           "user_email": FirebaseAuth.instance.currentUser!.email,
+
         };
 
         await db.collection("movies").doc(fileName).set(movie);
+        print(fileName);
       }
 }
