@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'edit_page.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
@@ -13,6 +14,7 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
+  List<Map<String, dynamic>> moviesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class _DetailsPageState extends State<DetailsPage> {
         title: const Text("Detalhes"),
         centerTitle: true,
       ),
+
       body: FutureBuilder(
           future: getUserMovie(),
           builder: (context, snapshot) {
@@ -94,12 +97,22 @@ class _DetailsPageState extends State<DetailsPage> {
                           color: Colors.red,
                         ),
                         IconButton(
+                          onPressed: () {
+                            //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Editando...")));
+                            _onPressedEditButton(movie);
+                          },
+                          icon: const Icon(Icons.edit),
+                          color: Colors.red, // ou outra cor de sua preferência
+                        ),
+                        IconButton(
                           onPressed: () => _onPressedLikeButton(movie, !liked),
                           icon: Icon(
                             liked ? Icons.favorite : Icons.favorite_border,
                             color: Colors.red,
                           ),
-                        )
+                        ),
+
+
                       ],
                     ),
                   ],
@@ -148,4 +161,17 @@ class _DetailsPageState extends State<DetailsPage> {
     await db.collection("movies").doc(movie["id"]).delete();
     await storage.ref().child(movie["id"]).delete();
   }
+
+  void _onPressedEditButton(Map<String, dynamic> movie) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditPage(movie: movie),
+      ),
+    );
+  }
+
+
 }
+
+

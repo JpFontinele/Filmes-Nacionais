@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/new": (context) =>const NewMoviePage(),
         "/details": (context) =>const DetailsPage(),
+
       },
     );
   }

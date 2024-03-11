@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
           .showSnackBar(SnackBar(content: Text(e.toString())));
       return;
     }
-    // print(FirebaseAuth.instance.currentUser!.email);
+
 
     if (!context.mounted) {
       return;

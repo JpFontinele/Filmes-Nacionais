@@ -155,19 +155,19 @@ class _NewMoviePageState extends State<NewMoviePage> {
 
   postMovie(
       String titulo, String diretor, String sinopse, File imagePath) async {
-    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
-    final ref = storage.ref().child(fileName);
-    await ref.putFile(imagePath);
+        String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+        final ref = storage.ref().child(fileName);
+        await ref.putFile(imagePath);
 
-    Map<String, dynamic> movie = {
-      "titulo": titulo,
-      "diretor": diretor,
-      "sinopse": sinopse,
-      "image": fileName,
-      "user_id": FirebaseAuth.instance.currentUser!.uid,
-      "user_email": FirebaseAuth.instance.currentUser!.email,
-    };
+        Map<String, dynamic> movie = {
+          "titulo": titulo,
+          "diretor": diretor,
+          "sinopse": sinopse,
+          "image": fileName,
+          "user_id": FirebaseAuth.instance.currentUser!.uid,
+          "user_email": FirebaseAuth.instance.currentUser!.email,
+        };
 
-    await db.collection("movies").doc(fileName).set(movie);
-  }
+        await db.collection("movies").doc(fileName).set(movie);
+      }
 }
